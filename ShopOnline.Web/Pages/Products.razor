@@ -1,0 +1,33 @@
+﻿@page "/"
+@inherits ProductsBase
+
+
+@if (Products == null)
+{
+    <h3>Loading products...</h3>
+}
+else
+{
+    <h3 class="mb-5">Products</h3>
+    var productCount = Products.Count();
+
+    @if (productCount > 0)
+    {
+
+      
+                
+            @foreach(var prodGroup in GetGroupedProductsByCategory())
+            {
+                        
+            @*Burada Ne Olup bitigini Ogrnmek Icin ProductBase -> > Gitttt ->> GetCategoryName*@    <h4>@GetCategoryName(prodGroup)</h4>
+
+
+                <div class="row mt-3">
+            @*Burada Ne Olup bitigini Ogrnmek Icin ProductBase -> > Gitttt ->> GetGroupedProductsByCategory()e*@  <DisplayProducts Products="@prodGroup.Take(4)"></DisplayProducts> @*Take(4) ilk 4 gosteriyor istersen artra bilisin*@
+                 </div>
+                <hr class="mb-3" />
+            }
+      
+        
+    }
+}
