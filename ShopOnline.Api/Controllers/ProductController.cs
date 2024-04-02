@@ -16,6 +16,7 @@ namespace ShopOnline.Api.Controllers
             this.productRepository = productRepository;
         }
 
+                    //Mu Mehtot bize butun Productlari veriyor 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetItems()
         {
@@ -42,5 +43,37 @@ namespace ShopOnline.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving data from the database.");
             }
         }
+
+        
+                    //Mu Mehtot birtane
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<ProductDto>> GetItem(int id)
+        {
+            try
+            {
+                var product = await this.productRepository.GetItem(id);
+               
+
+                if (product == null )
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    var productCategory = await this.productRepository.GetCategory(product.CategoryId);
+                    var productDTO= product.ConvertToDto(productCategory);
+                    return Ok(productDTO);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Hata günlüğüne kaydedin
+                // Log the error
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving data from the database.");
+            }
+        }
+
+
     }
 }
