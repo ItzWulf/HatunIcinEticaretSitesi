@@ -19,6 +19,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("ShopOnlineConnec
     
 );
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

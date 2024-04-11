@@ -1,0 +1,57 @@
+﻿@page "/ShoppingCart"
+@inherits ShoppingCartBase
+
+@if (ShoppingCartItems == null && ErrorMessage == null)
+{
+    <!-- Eğer alışveriş sepeti öğeleri yüklenirken veya hata oluşurken -->
+    <DisplaySpinner></DisplaySpinner>
+}
+else if (ErrorMessage != null)
+{
+    <!-- Eğer bir hata mesajı varsa -->
+    <DisplayError ErrorMessage="@ErrorMessage"></DisplayError>
+}
+else
+{
+    <!-- Eğer alışveriş sepeti öğeleri başarıyla yüklendiyse -->
+    <div class="container">
+        <h3 class="mb-5">Your Shopping Cart</h3>
+        <div class="row">
+            <div class="col-md-9">
+                <!-- Alışveriş sepeti öğeleri -->
+                @foreach(var item in ShoppingCartItems)
+                {
+                    <!-- Her bir alışveriş sepeti öğesi için -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <!-- Ürünün resmi -->
+                            <img src="@item.ProductImageUrl" width="300" class="img-thumbnail">
+                        </div>
+                        <div class="col-md-8">
+                            <!-- Ürün adı -->
+                            <h5>@item.ProductName</h5>
+                            <!-- Ürün açıklaması -->
+                            <div class="mb-4">@item.ProductDescrition</div>
+                            <!-- Ürün fiyatı -->
+                            <span>Price: <b>@item.Price.ToString("C")</b></span>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-3">
+                <!-- Sepet özeti -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cart Summary</h5>
+                        <!-- Toplam fiyat -->
+                        <div>Total -</div>
+                        <!-- Ödeme butonu -->
+                        <a href="#" class="btn btn-success mt-3">Proceed to Checkout</a>
+                        <!-- Ödeme simgesi -->
+                        <span class="oi oi-credit-card"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
