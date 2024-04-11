@@ -54,6 +54,41 @@ namespace ShopOnline.Api.Extension
            
         }
 
+        public static IEnumerable<CartitemDto> ConvertToDto(this IEnumerable<Cartitem> cartitems,
+                                                                    IEnumerable<Product> products)
+        {
+            return (from cartitem in cartitems
+                    join product in products
+                    on cartitem.ProductId equals product.Id
+                    select new CartitemDto
+                    {
+                        Id = cartitem.Id,
+                        ProductId = cartitem.ProductId,
+                        ProductName = product.Name,
+                        ProductDescrition = product.Description,
+                        ProductImageUrl = product.ImageURL,
+                        Price = product.Price,
+                        Qty = product.Qty,
+                        TotalPrice = product.Price * cartitem.Qty
+                    }).ToList();
+        }
+
+        public static CartitemDto ConvertToDto(this Cartitem cartitem,
+                                                                  Product product)
+        {
+            return (new CartitemDto
+                    {
+                        Id = cartitem.Id,
+                        ProductId = cartitem.ProductId,
+                        ProductName = product.Name,
+                        ProductDescrition = product.Description,
+                        ProductImageUrl = product.ImageURL,
+                        Price = product.Price,
+                        Qty = product.Qty,
+                        TotalPrice = product.Price * cartitem.Qty
+                    });
+        }
+
 
     }
 }
